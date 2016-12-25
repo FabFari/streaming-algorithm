@@ -81,5 +81,6 @@ if __name__ == "__main__":
     hash, hash2 = hashlittle2(hashstr, 0xdeadbeef, 0xdeadbeef)
     print '"%s": %x %x' % (hashstr, hash, hash2)
 
-    hash = hashlittle(hashstr, 0)
-    print '"%s": %x' % (hashstr, hash)
+    for i in range(0, 10):
+        hash = hashlittle(hashstr, i)
+        print '"%s": %x' % (hashstr, hash)
