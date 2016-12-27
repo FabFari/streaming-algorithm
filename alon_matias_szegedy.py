@@ -1,5 +1,5 @@
 import os
-from utils import lookup3
+from utils import pymmh3
 
 NUM_HASHES = 64
 INPUT_DIR = "data"
@@ -20,7 +20,7 @@ def alon_matias_szegedy(filename=STREAM_FILENAME):
         print "Now computing ", curr, " of 1891714: ", line
 
         for i in range(NUM_HASHES):
-            estimates[i] += 1 if lookup3.hashlittle(line, initval=i) % 2 == 0 else -1
+            estimates[i] += 1 if pymmh3.hash(line, seed=i) % 2 == 0 else -1
 
         line = f.readline()
 
