@@ -28,6 +28,7 @@ def flajolet_martin_algorithm(filename=STREAM_FILENAME):
 
     while line != "alyssa.p":
         curr += 1
+        line = line.split(" ")[0]
         print "Now computing ", curr, " of 1891714: ", line
 
         # Compute the hashes for the line
