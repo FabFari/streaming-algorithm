@@ -1,7 +1,7 @@
 import os
-from utils import lookup3
+from utils import pymmh3
 
-NUM_HASHES = 64
+NUM_HASHES = 128
 NUM_GROUPS = 8
 INPUT_DIR = "data"
 STREAM_FILENAME = "access_log_Jul95"
@@ -32,7 +32,7 @@ def flajolet_martin_algorithm(filename=STREAM_FILENAME):
         print "Now computing ", curr, " of 1891714: ", line
 
         # Compute the hashes for the line
-        hashes = [lookup3.hashlittle(line, initval=i) for i in range(NUM_HASHES)]
+        hashes = [pymmh3.hash(line, seed=i) for i in range(NUM_HASHES)]
 
         # Update the estimates
         for i in range(NUM_HASHES):
@@ -65,6 +65,7 @@ def flajolet_martin_algorithm(filename=STREAM_FILENAME):
     else:
         return group_estimates[(NUM_GROUPS - 1) / 2]
 
-print flajolet_martin_algorithm()
+if __name__ == "__main__":
+    print flajolet_martin_algorithm()
 
 

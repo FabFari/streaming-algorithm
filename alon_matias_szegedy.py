@@ -36,4 +36,5 @@ def alon_matias_szegedy(filename=STREAM_FILENAME):
 
     return float(sum_est) / float(NUM_HASHES)
 
-print alon_matias_szegedy()
+if __name__ == "__main__":
+    print alon_matias_szegedy()
