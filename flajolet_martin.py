@@ -73,5 +73,40 @@ def flajolet_martin_algorithm(num_hashes=128, num_groups=8, filename=STREAM_FILE
         return group_estimates[(num_groups - 1) / 2]
 
 
+def flajolet_martin_algorithm_real_time(line, estimates, group_estimates, num_hashes=128, num_groups=8, filename=STREAM_FILENAME, debug=False):
+    to_update = set()
+
+    # Compute the hashes for the line
+    hashes = [pymmh3.hash(line, seed=i) for i in range(num_hashes)]
+
+    # Update the estimates
+    for i in range(num_hashes):
+        tail_len = compute_tail_len(hashes[i])
+        if tail_len > estimates[i]:
+            estimates[i] = tail_len
+            to_update.add(i % num_groups)
+
+    # Update the group estimates
+    for i in to_update:
+        j = i
+        while j < num_hashes:
+            estimate_exp = 2 ** estimates[i]
+            group_estimates[i] += float(estimate_exp / num_groups)
+            j += num_groups
+
+    if debug:
+        print " group_estimates", group_estimates
+
+    # Sort to find the median
+    group_estimates.sort()
+    if debug:
+        print " group_estimates", group_estimates
+
+    if num_groups % 2 == 0:
+        return estimates, group_estimates, (group_estimates[(num_groups / 2) - 1] + group_estimates[(num_groups / 2)]) / 2
+    else:
+        return estimates, group_estimates, group_estimates[(num_groups - 1) / 2]
+
+
 if __name__ == "__main__":
     print flajolet_martin_algorithm()
