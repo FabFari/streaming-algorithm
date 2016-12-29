@@ -16,12 +16,14 @@ def second_moment(filename=STREAM_FILENAME):
     while line != "alyssa.p":
         curr += 1
         line = line.split(" ")[0]
-        print "Now computing ", curr, " of 1891714: ", line
+        if (curr % 100000) == 0:
+            # print "Now computing ", curr, " of 1891714: ", line
+            print "     (" + str(curr) + " / 1891714 )"
 
         values_dict[line] += 1
         line = f.readline()
 
-    values_dict = {key: value ** 2 for (key, value) in values_dict}
+    values_dict = {key: value ** 2 for (key, value) in values_dict.iteritems()}
 
     f2 = 0
 
