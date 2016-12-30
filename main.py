@@ -13,7 +13,7 @@ from second_moment import second_moment
 def print_statistic(n,F_estimate, F_real, l, g=0):
     print "--------------------- STATISTICS -----------------------"
     ae = math.fabs(F_estimate-F_real)
-    re = (ae/F_real)*100
+    re = (ae/F_estimate)*100
     if g != 0:  # for FM
         print "\n      number of records:  {}".format(n)
         print "     F0_estimate:  {}".format(F_estimate)
