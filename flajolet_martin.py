@@ -59,7 +59,7 @@ def flajolet_martin_algorithm(num_hashes=128, num_groups=8, filename=STREAM_FILE
     # Compute the group estimates
     group_estimates = [0.0 for j in range(num_groups)]
     for i in range(num_hashes):
-        group_estimates[i % num_groups] += float(estimates[i] / num_groups)
+        group_estimates[i % num_groups] += float(estimates[i]) / float(num_groups)
 
     if debug:
         print " group_estimates", group_estimates
@@ -78,7 +78,7 @@ def flajolet_martin_algorithm(num_hashes=128, num_groups=8, filename=STREAM_FILE
 def flajolet_martin_algorithm_real_time(line, estimates, group_estimates, num_hashes=128, num_groups=8, filename=STREAM_FILENAME, debug=False):
     to_update = set()
     # Compute the hashes for the line
-    hashes = [pymmh3.hash(line, seed=i) for i in range(num_hashes)]# [lookup3.hashlittle(line, initval=i) for i in range(num_hashes)]
+    hashes = [pymmh3.hash(line, seed=i) for i in range(num_hashes)]
     # Update the estimates
     for i in range(num_hashes):
         tail_len = compute_tail_len(hashes[i])
@@ -91,7 +91,7 @@ def flajolet_martin_algorithm_real_time(line, estimates, group_estimates, num_ha
         j = i
         while j < num_hashes:
             # estimate_exp = 2 ** estimates[i]
-            group_estimates[i] += float(estimates / num_groups)
+            group_estimates[i] += float(estimates[i]) / float(num_groups)
             j += num_groups
 
     if debug:
