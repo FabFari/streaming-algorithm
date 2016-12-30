@@ -80,6 +80,7 @@ def flajolet_martin_algorithm_real_time(line, estimates, group_estimates, num_ha
     to_update = set()
     # Compute the hashes for the line
     hashes = [pymmh3.hash(line, seed=i) for i in range(num_hashes)]
+
     # Update the estimates
     for i in range(num_hashes):
         tail_len = compute_tail_len(hashes[i])
