@@ -1,4 +1,6 @@
 import os
+
+from utils import lookup3
 from utils import pymmh3
 
 NUM_HASHES = 64
