@@ -52,14 +52,14 @@ def flajolet_martin_algorithm(num_hashes=128, num_groups=8, filename=STREAM_FILE
         print " estimates", estimates
 
     # Expand estimates
-    estimates_exp = [2 ** i for i in estimates]
-    if debug:
-        print " estimates_exp", estimates_exp
+    # estimates_exp = [2 ** i for i in estimates]
+    # if debug:
+    #    print " estimates_exp", estimates_exp
 
     # Compute the group estimates
     group_estimates = [0.0 for j in range(num_groups)]
     for i in range(num_hashes):
-        group_estimates[i % num_groups] += float(estimates_exp[i] / num_groups)
+        group_estimates[i % num_groups] += float(estimates[i] / num_groups)
 
     if debug:
         print " group_estimates", group_estimates
@@ -70,9 +70,9 @@ def flajolet_martin_algorithm(num_hashes=128, num_groups=8, filename=STREAM_FILE
         print " group_estimates", group_estimates
 
     if num_groups % 2 == 0:
-        return (group_estimates[(num_groups / 2) - 1] + group_estimates[(num_groups / 2)]) / 2
+        return 2 ** ((group_estimates[(num_groups / 2) - 1] + group_estimates[(num_groups / 2)]) / 2)
     else:
-        return group_estimates[(num_groups - 1) / 2]
+        return 2 ** group_estimates[(num_groups - 1) / 2]
 
 
 def flajolet_martin_algorithm_real_time(line, estimates, group_estimates, num_hashes=128, num_groups=8, filename=STREAM_FILENAME, debug=False):
@@ -90,8 +90,8 @@ def flajolet_martin_algorithm_real_time(line, estimates, group_estimates, num_ha
     for i in to_update:
         j = i
         while j < num_hashes:
-            estimate_exp = 2 ** estimates[i]
-            group_estimates[i] += float(estimate_exp / num_groups)
+            # estimate_exp = 2 ** estimates[i]
+            group_estimates[i] += float(estimates / num_groups)
             j += num_groups
 
     if debug:
@@ -103,9 +103,9 @@ def flajolet_martin_algorithm_real_time(line, estimates, group_estimates, num_ha
         print " group_estimates", group_estimates
 
     if num_groups % 2 == 0:
-        return estimates, group_estimates, (group_estimates[(num_groups / 2) - 1] + group_estimates[(num_groups / 2)]) / 2
+        return estimates, group_estimates, 2 ** ((group_estimates[(num_groups / 2) - 1] + group_estimates[(num_groups / 2)]) / 2)
     else:
-        return estimates, group_estimates, group_estimates[(num_groups - 1) / 2]
+        return estimates, group_estimates, 2 ** group_estimates[(num_groups - 1) / 2]
 
 
 if __name__ == "__main__":
