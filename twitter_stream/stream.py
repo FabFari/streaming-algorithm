@@ -15,7 +15,7 @@ def twitter_stream(tweet_count, fm_num_hashes, fm_num_groups, ams_num_hashes):
     twitter_stream = TwitterStream(auth=oauth)
 
     # Get stream iterator from two filters
-    iterator = twitter_stream.statuses.filter(track="a", language="en")
+    iterator = twitter_stream.statuses.filter(track="a", language="en", async=False)
 
     # Print each tweet in the stream to the screen
     # Here we set it to stop after getting 1000 tweets.
@@ -38,12 +38,7 @@ def twitter_stream(tweet_count, fm_num_hashes, fm_num_groups, ams_num_hashes):
                         hashtags.append(hashtag['text'])
                         tag.append(hashtag['text'])
                         print hashtag['text']
-                        flajolet_martin_algorithm_real_time(hashtag['text'], estimates, group_estimates, fm_num_hashes, fm_num_groups, debug=True)
-                        print 'after fm'
-
-
-                    print 'hashtags: ',hashtags
-
+                        estimates, group_estimates, f0 = flajolet_martin_algorithm_real_time(hashtag['text'], estimates, group_estimates, fm_num_hashes, fm_num_groups, debug=False)
         except:
             # read in a line is not in JSON format (sometimes error occured)
             continue
@@ -51,6 +46,7 @@ def twitter_stream(tweet_count, fm_num_hashes, fm_num_groups, ams_num_hashes):
         if tweet_count <= 0:
             break
 
+    print f0
 if __name__ == "__main__":
     print "twitter_stream: "
-    twitter_stream(tweet_count=1, fm_num_hashes=128, fm_num_groups=8, ams_num_hashes=64)
+    twitter_stream(tweet_count=1000, fm_num_hashes=128, fm_num_groups=8, ams_num_hashes=64)
