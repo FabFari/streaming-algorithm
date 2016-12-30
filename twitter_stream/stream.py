@@ -40,14 +40,18 @@ def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_stati
             if len(tweet['entities']['hashtags']) != 0:
                 if 'text' in tweet:  # only messages contains 'text' field is a tweet
                     for hashtag in tweet['entities']['hashtags']:
-                        tweet_count += 1
-                        print 'tweet_count: ', tweet_count
                         h = unicodedata.normalize('NFKD', hashtag['text']).encode('ASCII', 'ignore')
-
-                        h_dict[str(h)] += 1
-                        estimates_fm, group_estimates_fm, f0 = flajolet_martin_algorithm_real_time(h, estimates_fm, group_estimates_fm, fm_num_hashes, fm_num_groups, debug=False)
-                        estimates_ams, avg = alon_matias_szegedy_real_time(h, estimates_ams, avg, ams_num_hashes, debug=False)
-
+                        if len(h) != 0: # chinese caratects does not get convert
+                            tweet_count += 1
+                            print 'tweet_count: ', tweet_count
+                            h_dict[str(h)] += 1
+                            estimates_fm, group_estimates_fm, f0 = flajolet_martin_algorithm_real_time(h, estimates_fm, group_estimates_fm, fm_num_hashes, fm_num_groups, debug=False)
+                            estimates_ams, avg = alon_matias_szegedy_real_time(h, estimates_ams, avg, ams_num_hashes, debug=False)
+                        else:
+                            if len(h) == 0:
+                                print 'h: ', h
+                                print "hashtag['text']: ", hashtag['text']
+                                break
                 # each 100 hastag we show the statiscits
                 if (tweet_count % frequency_statistic) == 0:
                     print_statistic(tweet_count, f0, len(h_dict.keys()), estimates_fm, group_estimates_fm)
