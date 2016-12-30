@@ -35,7 +35,6 @@ def flajolet_martin_algorithm(num_hashes=128, num_groups=8, filename=STREAM_FILE
             # print "Now computing ", curr, " of 1891714: ", line
             print "     (" + str(curr) + " / 1891714 )"
 
-
         # Compute the hashes for the line
         hashes = [pymmh3.hash(line, seed=i) for i in range(num_hashes)]
 
