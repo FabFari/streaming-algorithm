@@ -88,6 +88,7 @@ def flajolet_martin_algorithm_real_time(line, estimates, group_estimates, num_ha
 
     # Update the group estimates
     for i in to_update:
+        group_estimates[i] = 0
         j = i
         while j < num_hashes:
             # estimate_exp = 2 ** estimates[j]
