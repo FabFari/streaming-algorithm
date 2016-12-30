@@ -1,3 +1,5 @@
+import math
+
 from alon_matias_szegedy import alon_matias_szegedy
 from distinct_values import distinct_values
 from flajolet_martin import flajolet_martin_algorithm
@@ -8,22 +10,27 @@ from second_moment import second_moment
    the true values F0 (or F2), the absolute and relative errors, the value of l, the group size (for FM)
 '''
 
-def print_statistic(n,F_estimate, F_real, ae, re, l, g=0):
+def print_statistic(n,F_estimate, F_real, l, g=0):
     print "--------------------- STATISTICS -----------------------"
+    ae = math.fabs(F_estimate-F_real)
+    re = (ae/F_real)*100
     if g != 0:  # for FM
         print "\n      number of records:  {}".format(n)
         print "     F0_estimate:  {}".format(F_estimate)
         print "     F0_real:  {}".format(F_real)
-        print "     absolute errors: {}, relative errors: {}".format(ae, re)
+        print "     absolute errors: {}, relative errors: {}%".format(ae, re)
         print "     value independent estimates: {}".format(l)
         print "     group size (FM): {}".format(g)
     else:
         print "\n       number of records:  {}".format(n)
         print "     F2_estimate:  {}".format(F_estimate)
         print "     F2_real:  {}".format(F_real)
-        print "     absolute errors: {}, relative errors: {}".format(ae, re)
+        print "     absolute errors: {}, relative errors: {}%".format(ae, re)
         print "     value independent estimates: {}".format(l)
     print "-------------------------------------------------------"
+
+    # relativo = assoluto / reale
+    # assolto = |stima - reale|
 
 def compare_methos_ondataset(fm_num_hashes, fm_num_groups, ams_num_hashes):
 

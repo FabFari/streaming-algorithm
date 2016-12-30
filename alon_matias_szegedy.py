@@ -1,4 +1,6 @@
 import os
+
+from utils import lookup3
 from utils import pymmh3
 
 NUM_HASHES = 64
@@ -44,7 +46,7 @@ def alon_matias_szegedy_real_time(line, estimates, avg=0.0, num_hashes=64, filen
     new_estimates = [0 for j in range(num_hashes)]
 
     for i in range(num_hashes):
-        new_estimates[i] = 1 if pymmh3.hash(line, seed=i) % 2 == 0 else -1
+        new_estimates[i] = 1 if lookup3.hashlittle(line, initval=i) % 2 == 0 else -1
 
     if debug:
         print new_estimates
