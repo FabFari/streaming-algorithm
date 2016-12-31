@@ -13,25 +13,25 @@ from second_moment import second_moment
 
 def print_statistic(n, F_estimate, F_real, l, g=0):
     s = ''
-    s += str("--------------------- STATISTICS -----------------------")
+    s += str("\n--------------------- STATISTICS -----------------------")
 
     ae = math.fabs(F_estimate-F_real)
     re = (ae/F_estimate)*100
     if g != 0:  # for FM
         s += str("\n")
-        s += str("     number of records:  {}".format(n))
-        s += str("     F0_real:      {}".format(F_real))
-        s += str("     F0_estimate:  {}".format(F_estimate))
-        s += str("     absolute errors: {}, relative errors: {}%".format(ae, re))
-        s += str("     value independent estimates: {}".format(l))
-        s += str("     group size (FM): {}".format(g))
+        s += str("     number of records:  {} \n".format(n))
+        s += str("     F0_real:      {}\n".format(F_real))
+        s += str("     F0_estimate:  {}\n".format(F_estimate))
+        s += str("     absolute errors: {}, relative errors: {}%\n".format(ae, re))
+        s += str("     value independent estimates: {}\n".format(l))
+        s += str("     group size (FM): {}\n".format(g))
     else:
-        s += str("\n       number of records:  {}".format(n))
-        s += str("     F2_real:      {}".format(F_real))
-        s += str("     F2_estimate:  {}".format(F_estimate))
-        s += str("     absolute errors: {}, relative errors: {}%".format(ae, re))
-        s += str("     value independent estimates: {}".format(l))
-    s += str("--------------------------------------------------------")
+        s += str("\n       number of records:  {}\n".format(n))
+        s += str("     F2_real:      {}\n".format(F_real))
+        s += str("     F2_estimate:  {}\n".format(F_estimate))
+        s += str("     absolute errors: {}, relative errors: {}%\n".format(ae, re))
+        s += str("     value independent estimates: {}\n".format(l))
+    s += str("--------------------------------------------------------\n")
 
     print s
     return s

@@ -1,5 +1,6 @@
 # Import the necessary methods from "twitter" library
 import io
+import json
 import os
 import unicodedata
 from collections import defaultdict
@@ -40,7 +41,7 @@ def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_stati
     estimates_ams = [0 for j in range(ams_num_hashes)]
     tweet_count = 0
     avg = 0.0
-    f = io.open(os.path.join(os.pardir, TWITTER_DIR, FILE_NAME_TWITTER), 'w', encoding='utf-8')
+    f = io.open(os.path.join(os.pardir, TWITTER_DIR, FILE_NAME_TWITTER), 'wt', encoding='utf-8')
     for tweet in iterator:
         try:
             if len(tweet['entities']['hashtags']) != 0:
@@ -49,7 +50,9 @@ def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_stati
                         h = unicodedata.normalize('NFKD', hashtag['text']).encode('ASCII', 'ignore')
                         if len(h) != 0: # chinese caratects does not get convert
                             tweet_count += 1
-                            f.write(tweet+'\n')
+                            # print tweet['text']
+                            out = unicode(json.dumps(tweet['text'], ensure_ascii=False))+str('\n')
+                            f.write(out)
 
                             if debug:
                                 print 'tweet_count: ', tweet_count
@@ -76,15 +79,14 @@ def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_stati
                     # close and open because the program continue to run, to stop it we have to kill the process,
                     # in this way we save the file session.
                     f.close()
-                    f = io.open(os.path.join(os.pardir, TWITTER_DIR, FILE_NAME_TWITTER), 'w', encoding='utf-8')
+                    f = io.open(os.path.join(os.pardir, TWITTER_DIR, FILE_NAME_TWITTER), 'wt', encoding='utf-8')
 
                     # write json documents
-                    with open("..\\{}\\{}".format(TWITTER_DIR, FILE_NAME_STATISTIC), "wt") as f:
-                        f.write(statistisc)
-
-
+                    with open("..//{}//{}".format(TWITTER_DIR, FILE_NAME_STATISTIC), "wt") as fs:
+                        fs.write(statistisc)
         except Exception as e:
-            print "errore",e
+            if debug:
+                print "errore",e
             continue
 
 if __name__ == "__main__":
