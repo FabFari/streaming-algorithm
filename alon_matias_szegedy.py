@@ -44,14 +44,19 @@ def alon_matias_szegedy(num_hashes=64, filename=STREAM_FILENAME, debug=False):
 
 def alon_matias_szegedy_real_time(line, estimates, avg=0.0, num_hashes=64, filename=STREAM_FILENAME, debug=False):
     # new_estimates = [0 for j in range(num_hashes)]
+    avg2 = 0.0
 
     for i in range(num_hashes):
         new_estimate = 1 if pymmh3.hash(line, seed=i) % 2 == 0 else -1
+        avg += float(new_estimate ** 2 + 2 * estimates[i] * new_estimate) / float(num_hashes)
         estimates[i] += new_estimate
-        avg += float(estimates[i] ** 2) / float(num_hashes)
+        if debug:
+            avg2 += float(estimates[i] ** 2) / float(num_hashes)
 
     if debug:
         print estimates
+        print "avg: ", avg
+        print "avg2: ", avg2
 
     # estimates_n-1[i] = (a_1 + a_2 + ... + a_n-1)^2
     # estimates_n[i] = (a_1 + a_2 + ... + a_n-1 + a_n)^2 = (srqt(estimates_n-1[i]) + a_n)^2 =
