@@ -42,6 +42,7 @@ def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_stati
     tweet_count = 0
     avg = 0.0
     f = io.open(os.path.join(os.pardir, TWITTER_DIR, FILE_NAME_TWITTER), 'wt', encoding='utf-8')
+    fs = open("..//{}//{}".format(TWITTER_DIR, FILE_NAME_STATISTIC), "w")
     for tweet in iterator:
         try:
             if len(tweet['entities']['hashtags']) != 0:
@@ -75,15 +76,7 @@ def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_stati
                     # print_statistic(n, F_estimate, F_real, ae, re, l, g=0):
                     statistisc += print_statistic(tweet_count, avg, s, estimates_ams)
 
-
-                    # close and open because the program continue to run, to stop it we have to kill the process,
-                    # in this way we save the file session.
-                    f.close()
-                    f = io.open(os.path.join(os.pardir, TWITTER_DIR, FILE_NAME_TWITTER), 'wt', encoding='utf-8')
-
-                    # write json documents
-                    with open("..//{}//{}".format(TWITTER_DIR, FILE_NAME_STATISTIC), "wt") as fs:
-                        fs.write(statistisc)
+                    fs.write(statistisc)
         except Exception as e:
             if debug:
                 print "errore",e
