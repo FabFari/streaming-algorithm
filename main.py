@@ -11,24 +11,30 @@ from second_moment import second_moment
 '''
 
 
-def print_statistic(n,F_estimate, F_real, l, g=0):
-    print "--------------------- STATISTICS -----------------------"
+def print_statistic(n, F_estimate, F_real, l, g=0):
+    s = ''
+    s += str("--------------------- STATISTICS -----------------------")
+
     ae = math.fabs(F_estimate-F_real)
     re = (ae/F_estimate)*100
     if g != 0:  # for FM
-        print "\n      number of records:  {}".format(n)
-        print "     F0_real:      {}".format(F_real)
-        print "     F0_estimate:  {}".format(F_estimate)
-        print "     absolute errors: {}, relative errors: {}%".format(ae, re)
-        print "     value independent estimates: {}".format(l)
-        print "     group size (FM): {}".format(g)
+        s += str("\n")
+        s += str("     number of records:  {}".format(n))
+        s += str("     F0_real:      {}".format(F_real))
+        s += str("     F0_estimate:  {}".format(F_estimate))
+        s += str("     absolute errors: {}, relative errors: {}%".format(ae, re))
+        s += str("     value independent estimates: {}".format(l))
+        s += str("     group size (FM): {}".format(g))
     else:
-        print "\n       number of records:  {}".format(n)
-        print "     F2_real:      {}".format(F_real)
-        print "     F2_estimate:  {}".format(F_estimate)
-        print "     absolute errors: {}, relative errors: {}%".format(ae, re)
-        print "     value independent estimates: {}".format(l)
-    print "--------------------------------------------------------"
+        s += str("\n       number of records:  {}".format(n))
+        s += str("     F2_real:      {}".format(F_real))
+        s += str("     F2_estimate:  {}".format(F_estimate))
+        s += str("     absolute errors: {}, relative errors: {}%".format(ae, re))
+        s += str("     value independent estimates: {}".format(l))
+    s += str("--------------------------------------------------------")
+
+    print s
+    return s
 
     # relativo = assoluto / reale
     # assolto = |stima - reale|
@@ -61,7 +67,7 @@ if __name__ == "__main__":
     print ' ##############################################################################################################################################################################'
     print ' TEST..... ', 1
 
-    compare_methos_ondataset(fm_num_hashes=1, fm_num_groups=1, ams_num_hashes=2)
+    compare_methos_ondataset(fm_num_hashes=128, fm_num_groups=8, ams_num_hashes=64)
     '''
     print ' ##############################################################################################################################################################################'
     print ' TEST..... ', 2
