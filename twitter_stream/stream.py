@@ -7,25 +7,22 @@ from collections import defaultdict
 from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 from alon_matias_szegedy import alon_matias_szegedy_real_time
 from flajolet_martin import flajolet_martin_algorithm_real_time
-from main import print_statistic
-
+from utils.print_statistic import print_statistic
 
 TWITTER_DIR = "data/"
 FILE_NAME_TWITTER = "twitter.txt"
 FILE_NAME_STATISTIC = "stream_statistic.txt"
 
 
-def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_statistic, debug=False):
+def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_statistic, number_of_tweets=None,main=None, debug=False):
 
     consumer_key = 'tZRi2DVFSeEl4K77R2yNLE8aQ'
     consumer_secret = 'Wnewl8PFjgBC9QlIimLpirYvdPvrvE9Mx4vEOeCvFPeuQr9s5G'
     access_token = '2341848095-rFwC9RZJceJGUvAsTEUivc8Hq6mdaHBGoFlNo44'
     access_secret = 'xFCaYxcGjN2X4aVCXu3cV0U8spIAiiVgwabygVfFkmIbU'
     oauth = OAuth(access_token, access_secret, consumer_key, consumer_secret)
-
     # Initiate the connection to Twitter Streaming API
     tweets_stream = TwitterStream(auth=oauth)
-
     # Get stream iterator from two filters
     iterator = tweets_stream.statuses.filter(track="a", language="en", async=False)
 
@@ -41,8 +38,13 @@ def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_stati
     estimates_ams = [0 for j in range(ams_num_hashes)]
     tweet_count = 0
     avg = 0.0
-    f = io.open(os.path.join(os.pardir, TWITTER_DIR, FILE_NAME_TWITTER), 'wt', encoding='utf-8')
-    fs = open("..//{}//{}".format(TWITTER_DIR, FILE_NAME_STATISTIC), "w")
+    if main:
+        f = io.open(os.path.join(os.pardir, TWITTER_DIR, FILE_NAME_TWITTER), 'wt', encoding='utf-8')
+        fs = io.open(os.path.join(os.pardir, TWITTER_DIR, FILE_NAME_STATISTIC), 'wt', encoding='utf-8')
+    else:
+        # FOR TEST MODE
+        f = open(os.path.join(os.getcwd(), TWITTER_DIR, FILE_NAME_TWITTER), 'wt')
+        fs = open(os.path.join(os.getcwd(),TWITTER_DIR, FILE_NAME_STATISTIC), "wt")
     for tweet in iterator:
         try:
             if len(tweet['entities']['hashtags']) != 0:
@@ -51,6 +53,8 @@ def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_stati
                         h = unicodedata.normalize('NFKD', hashtag['text']).encode('ASCII', 'ignore')
                         if len(h) != 0: # chinese caratects does not get convert
                             tweet_count += 1
+                            if number_of_tweets is not None:
+                                number_of_tweets -= 1
                             # print tweet['text']
                             out = unicode(json.dumps(tweet['text'], ensure_ascii=False))+str('\n')
                             f.write(out)
@@ -75,13 +79,19 @@ def twitter_stream(fm_num_hashes, fm_num_groups, ams_num_hashes, frequency_stati
                         s += h_dict[k]**2
                     # print_statistic(n, F_estimate, F_real, ae, re, l, g=0):
                     statistisc += print_statistic(tweet_count, avg, s, estimates_ams)
+                    fs.write(unicode(statistisc))
 
-                    fs.write(statistisc)
+                # for TEST MODE
+                if number_of_tweets is not None:
+                    if number_of_tweets <= 0:
+                        break
         except Exception as e:
             if debug:
                 print "errore",e
+            # print "errore", e
             continue
+
 
 if __name__ == "__main__":
     print "twitter_stream: "
-    twitter_stream(fm_num_hashes=128, fm_num_groups=8, ams_num_hashes=64, frequency_statistic=100)
+    twitter_stream(fm_num_hashes=128, fm_num_groups=8, ams_num_hashes=64, frequency_statistic=100, main=True)
