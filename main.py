@@ -16,18 +16,18 @@ def print_statistic(n,F_estimate, F_real, l, g=0):
     re = (ae/F_estimate)*100
     if g != 0:  # for FM
         print "\n      number of records:  {}".format(n)
+        print "     F0_real:      {}".format(F_real)
         print "     F0_estimate:  {}".format(F_estimate)
-        print "     F0_real:  {}".format(F_real)
         print "     absolute errors: {}, relative errors: {}%".format(ae, re)
         print "     value independent estimates: {}".format(l)
         print "     group size (FM): {}".format(g)
     else:
         print "\n       number of records:  {}".format(n)
+        print "     F2_real:      {}".format(F_real)
         print "     F2_estimate:  {}".format(F_estimate)
-        print "     F2_real:  {}".format(F_real)
         print "     absolute errors: {}, relative errors: {}%".format(ae, re)
         print "     value independent estimates: {}".format(l)
-    print "-------------------------------------------------------"
+    print "--------------------------------------------------------"
 
     # relativo = assoluto / reale
     # assolto = |stima - reale|

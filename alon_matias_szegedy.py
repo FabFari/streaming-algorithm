@@ -47,8 +47,8 @@ def alon_matias_szegedy_real_time(line, estimates, avg=0.0, num_hashes=64, filen
 
     for i in range(num_hashes):
         new_estimate = 1 if pymmh3.hash(line, seed=i) % 2 == 0 else -1
-        avg += float(new_estimate ** 2 + 2 * estimates[i] * new_estimate) / float(num_hashes)
         estimates[i] += new_estimate
+        avg += float(estimates[i] ** 2) / float(num_hashes)
 
     if debug:
         print estimates
