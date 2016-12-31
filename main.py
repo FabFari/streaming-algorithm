@@ -10,6 +10,7 @@ from second_moment import second_moment
    the true values F0 (or F2), the absolute and relative errors, the value of l, the group size (for FM)
 '''
 
+
 def print_statistic(n,F_estimate, F_real, l, g=0):
     print "--------------------- STATISTICS -----------------------"
     ae = math.fabs(F_estimate-F_real)
@@ -43,32 +44,16 @@ def compare_methos_ondataset(fm_num_hashes, fm_num_groups, ams_num_hashes):
     print '\n   Test distinct_values: '
     F0_real = distinct_values()
 
-    print_statistic(1891714, F0_estimate, F0_real, 0,0, fm_num_hashes, fm_num_groups)
+    print_statistic(1891714, F0_estimate, F0_real, fm_num_hashes, fm_num_groups)
 
     print '\n   Test alon_matias_szegedy:  '
     F2_estimate = alon_matias_szegedy(ams_num_hashes)
     print '\n   Test second_moment: '
     F2_real = second_moment()
-    print_statistic(1891714, F2_estimate, F2_real, 0, 0, ams_num_hashes)
+    print_statistic(1891714, F2_estimate, F2_real, ams_num_hashes)
 
 def compare_methos_twitter(fm_num_hashes, fm_num_groups, ams_num_hashes):
-
-    # parametri per FM sono: NUM_HASHES = 128, NUM_GROUPS = 8
-    # parametri per AMS son:
-    print ' Test with fm_num_hashes: {},  fm_num_groups: {}, ams_num_hashes: {}'.format(fm_num_hashes, fm_num_groups, ams_num_hashes)
-
-    print '\n   Test flajolet_martin_algorithm: '
-    F0_estimate = flajolet_martin_algorithm(fm_num_hashes,fm_num_groups)
-    print '\n   Test distinct_values: '
-    F0_real = distinct_values()
-
-    print_statistic(1891714, F0_estimate, F0_real, 0,0, fm_num_hashes, fm_num_groups)
-
-    print '\n   Test alon_matias_szegedy:  '
-    F2_estimate = alon_matias_szegedy(ams_num_hashes)
-    print '\n   Test second_moment: '
-    F2_real = second_moment()
-    print_statistic(1891714, F2_estimate, F2_real, 0, 0, ams_num_hashes)
+    print 'to do'
 
 
 if __name__ == "__main__":
