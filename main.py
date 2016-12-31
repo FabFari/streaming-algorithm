@@ -54,13 +54,13 @@ def compare_methos_twitter(number_test, fm_num_hashes, fm_num_groups, ams_num_ha
 
 
 if __name__ == "__main__":
-    '''
+
     print "Test on data set: access_log_Jul95\n"
     print ' ##############################################################################################################################################################################'
     print ' TEST..... ', 1
 
     compare_methos_ondataset(fm_num_hashes=128, fm_num_groups=8, ams_num_hashes=64)
-
+    '''
     print ' ##############################################################################################################################################################################'
     print ' TEST..... ', 2
     compare_methos()
